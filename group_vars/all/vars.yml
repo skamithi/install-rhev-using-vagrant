@@ -3,19 +3,9 @@ subscription_user: "{{ vault_subscription_user }}"
 pool_ids: "{{ vault_pool_ids }}"
 
 
-rhev_repos:
+subscription_repos:
   - rhel-7-server-rpms
   - rhel-7-server-supplementary-rpms
   - rhel-7-server-rhv-4.1-rpms
   - rhel-7-server-rhv-4-tools-rpms
   - jb-eap-7-for-rhel-7-server-rpms
-
-rhn_username: "{{ subscription_user }}"
-rhn_password: "{{ subscription_pass }}"
-rhsub_repos:
-  - name: rhel-7-server-rpms
-  - name: rhel-7-server-supplementary-rpms
-  - name: rhel-7-server-rhv-4.1-rpms
-  - name: rhel-7-server-rhv-4-tools-rpms
-  - name: jb-eap-7-for-rhel-7-servers-rpms
-

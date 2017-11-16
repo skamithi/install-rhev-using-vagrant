@@ -1,0 +1,3 @@
+- name: install rhevm
+  yum:
+    name: rhevm

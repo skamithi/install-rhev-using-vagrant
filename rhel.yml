@@ -3,4 +3,3 @@
   become: true
   roles:
     - redhat_subscription_role
-    - rhev

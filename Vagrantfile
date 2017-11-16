@@ -34,14 +34,14 @@ Vagrant.configure(2) do |config|
     end
   end
 
-  config.vm.define :rhevm do |node|
+  config.vm.define :rhevh1 do |node|
     node.vm.provider :libvirt do |domain|
       domain.memory = 4096
       domain.cpus = 2
     end
 
     node.vm.box = "rhel73"
-    node.vm.hostname = "rhelh1"
+    node.vm.hostname = "rhevh1"
     node.vm.network :private_network,
       :ip => '10.20.0.3',
       :prefix => '24',
@@ -52,6 +52,9 @@ Vagrant.configure(2) do |config|
     node.vm.provision :ansible do  |ansible|
       ansible.vault_password_file = "v_pass"
       ansible.playbook = "rhel.yml"
+      ansible.extra_vars = {
+        update_yum: false
+      }
     end
   end
 

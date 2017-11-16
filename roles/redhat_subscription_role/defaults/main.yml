@@ -1,0 +1,14 @@
+# Define a red hat subscription user
+subscription_user:
+
+# define a redhat subscription password
+subscription_pass:
+
+# define a list of red hat subscription pool ids
+pool_ids: []
+
+# list of repos to activate. All other repos are disabled
+subscription_repos: []
+
+# run latest yum packages. set to false if  you don't want this
+update_yum: true
