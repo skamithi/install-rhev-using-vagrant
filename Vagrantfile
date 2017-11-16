@@ -23,13 +23,35 @@ Vagrant.configure(2) do |config|
     node.vm.hostname = "rhevm"
     node.vm.network :private_network,
       :ip => '10.20.0.2',
-      :netmask => '255.255.255.0',
-      :libvirt__forward_mode => 'none',
+      :prefix => '24',
+      :libvirt__forward_mode => 'veryisolated',
       :libvirt__network_name => 'rhevm_net',
       :libvirt__dhcp_enabled => false
 
     node.vm.provision :ansible do  |ansible|
+      ansible.vault_password_file = "v_pass"
       ansible.playbook = "rhevm.yml"
+    end
+  end
+
+  config.vm.define :rhevm do |node|
+    node.vm.provider :libvirt do |domain|
+      domain.memory = 4096
+      domain.cpus = 2
+    end
+
+    node.vm.box = "rhel73"
+    node.vm.hostname = "rhelh1"
+    node.vm.network :private_network,
+      :ip => '10.20.0.3',
+      :prefix => '24',
+      :libvirt__forward_mode => 'veryisolated',
+      :libvirt__network_name => 'rhevm_net',
+      :libvirt__dhcp_enabled => false
+
+    node.vm.provision :ansible do  |ansible|
+      ansible.vault_password_file = "v_pass"
+      ansible.playbook = "rhel.yml"
     end
   end
 

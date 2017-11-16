@@ -1,4 +1,28 @@
 ---
 - hosts: all
+  become: true
   tasks:
-    - debug: "got here"
+    - name: Subscribe to require Red Hat repos. Find the right pool IDs as mentioned in the 4.1 rhev install guide.
+      redhat_subscription:
+        state: present
+        username: "{{ subscription_user }}"
+        password: "{{ subscription_pass }}"
+        pool_ids: "{{ pool_ids }}"
+
+    - name: install the appropriate redhat repos
+      redhat_repos:
+        repos: "{{ rhev_repos }}"
+        only: yes
+
+    - name: update yum packages
+      yum:
+        name: '*'
+        state: latest
+    - name: install rhevm
+      yum:
+        name: rhevm
+
+
+#  roles:
+#  - role: samdoran.redhat-subscription
+#  - role: install-rhev
