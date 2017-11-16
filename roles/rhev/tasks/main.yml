@@ -1,3 +1,18 @@
 - name: install rhevm
   yum:
     name: rhevm
+
+- name: confirm that the nfs_rhev_home is set
+  assert:
+    that:
+      - " nfs_rhev_home is defined "
+    msg: "nfs_rhev_home is not defined"
+
+- name: set nfs directory with the proper permissions
+  file:
+    path: "{{ nfs_rhev_home}}"
+    owner: vdsm
+    group: kvm
+    mode: 0770
+    state: touch
+

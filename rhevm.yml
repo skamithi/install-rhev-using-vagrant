@@ -1,6 +1,15 @@
 ---
 - hosts: all
   become: true
+  pre_tasks:
+    - assert:
+        that:
+          - "nfs_rhev_home is defined"
+        msg: "nfs_rhev_home var is not defined"
   roles:
     - redhat_subscription_role
+    - role: geerlingguy.nfs
+      nfs_exports:
+        - "{{ nfs_rhev_home }} *(rw,sync,no_root_squash)"
     - rhev
+

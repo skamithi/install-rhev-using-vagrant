@@ -1,0 +1,4 @@
+# Configure nfs_rhev_home
+# Example: nfs_rhev_home: /home/rhev_nfs
+# nfs_rhev_home:
+
