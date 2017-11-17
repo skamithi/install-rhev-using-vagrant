@@ -4,8 +4,8 @@
 ## When running `vagrant up` run it with the `--no-parallel` option.
 ## This ensures that the fuel_master comes up first
 
-rhevm_ip = '10.2.0.2'
-rhevh1_ip = '10.2.0.3'
+rhevm_ip = '10.20.0.2'
+rhevh1_ip = '10.20.0.3'
 
 Vagrant.configure(2) do |config|
   # The most common configuration options are documented and commented below.
@@ -24,7 +24,7 @@ Vagrant.configure(2) do |config|
     node.vm.box = "rhel73"
     node.vm.hostname = "rhevm"
     node.vm.network :private_network,
-      :ip => '10.20.0.2',
+      :ip => rhevm_ip,
       :prefix => '24',
       :libvirt__forward_mode => 'veryisolated',
       :libvirt__network_name => 'rhevm_net',
@@ -33,7 +33,7 @@ Vagrant.configure(2) do |config|
     node.vm.provision :ansible do  |ansible|
       ansible.vault_password_file = "v_pass"
       ansible.playbook = "rhevm.yml"
-      ansible.tags = "rhev_hypervisor"
+      ansible.skip_tags = "rhev_hypervisor, rhev_storage"
       ansible.verbose = "vvvv"
       ansible.extra_vars = {
         "ovirt_engine_host": "rhevm",
@@ -59,7 +59,7 @@ Vagrant.configure(2) do |config|
     node.vm.box = "rhel73"
     node.vm.hostname = "rhevh1"
     node.vm.network :private_network,
-      :ip => '10.20.0.3',
+      :ip => rhevh1_ip,
       :prefix => '24',
       :libvirt__forward_mode => 'veryisolated',
       :libvirt__network_name => 'rhevm_net',
@@ -67,8 +67,14 @@ Vagrant.configure(2) do |config|
 
     node.vm.provision :ansible do  |ansible|
       ansible.vault_password_file = "v_pass"
+      ansible.skip_tags= "rhev_install, subscription"
       ansible.playbook = "rhevh1.yml"
+      ansible.verbose = "vvvv"
       ansible.extra_vars = {
+        "update_yum": false,
+        "ovirt_engine_host": "rhevm",
+        "rhel_hypervisor_ip": rhevh1_ip,
+        "rhel_hypervisor_name": "rhevh1",
    			"host_additional_hosts": [{
          	"address": rhevm_ip
       		},
