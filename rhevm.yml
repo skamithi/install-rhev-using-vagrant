@@ -7,9 +7,13 @@
           - "nfs_rhev_home is defined"
         msg: "nfs_rhev_home var is not defined"
   roles:
-    - redhat_subscription_role
+    - role: redhat_subscription_role
+      tags: subscription
+  	- role: ansible-role-hosts # variables found in Vagrantfile extra_vars
     - role: geerlingguy.nfs
       nfs_exports:
-        - "{{ nfs_rhev_home }} *(rw,sync,no_root_squash)"
-    - rhev
+        - "{{ nfs_export_line }}"
+      tags: nfs
+    - role: rhev
+      tags: rhev
 

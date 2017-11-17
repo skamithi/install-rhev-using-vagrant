@@ -4,11 +4,13 @@
 ## When running `vagrant up` run it with the `--no-parallel` option.
 ## This ensures that the fuel_master comes up first
 
+rhevm_ip = '10.2.0.2'
+rhevh1_ip = '10.2.0.3'
+
 Vagrant.configure(2) do |config|
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
-
 
   # Disable the synced_folder feature
   config.vm.synced_folder '.', '/vagrant', :disabled => true
@@ -31,6 +33,18 @@ Vagrant.configure(2) do |config|
     node.vm.provision :ansible do  |ansible|
       ansible.vault_password_file = "v_pass"
       ansible.playbook = "rhevm.yml"
+#      ansible.tags = "rhev"
+      ansible.extra_vars = {
+   			"host_additional_hosts": [{
+         	"address": rhevh1_ip
+      		},
+      		{
+         		"hostnames": [
+            	"rhevh1"
+         	]
+      		}
+				]
+			}
     end
   end
 
@@ -51,9 +65,18 @@ Vagrant.configure(2) do |config|
 
     node.vm.provision :ansible do  |ansible|
       ansible.vault_password_file = "v_pass"
-      ansible.playbook = "rhel.yml"
+      ansible.playbook = "rhevh1.yml"
       ansible.extra_vars = {
-        update_yum: false
+   			"host_additional_hosts": [{
+         	"address": rhevm_ip
+      		},
+      		{
+         		"hostnames": [
+            	"rhevm"
+         	]
+      		}
+				]
+
       }
     end
   end

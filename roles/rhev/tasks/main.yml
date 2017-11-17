@@ -14,5 +14,12 @@
     owner: vdsm
     group: kvm
     mode: 0770
-    state: touch
+    state: directory
 
+- name: update firewalld to allow NFS server to function
+  firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items: "{{ nfs_services }}"
+  notify: reload firewalld

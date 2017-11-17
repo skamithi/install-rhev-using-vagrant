@@ -1,0 +1,4 @@
+nfs_services:
+  - nfs
+  - mountd
+  - rpc-bind

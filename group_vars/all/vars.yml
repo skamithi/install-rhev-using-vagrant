@@ -4,6 +4,8 @@ pool_ids: "{{ vault_pool_ids }}"
 
 
 nfs_rhev_home: /home/rhev_nfs
+nfs_export_line: "{{ nfs_rhev_home }} *(rw,sync,no_root_squash)"
+
 subscription_repos:
   - rhel-7-server-rpms
   - rhel-7-server-supplementary-rpms
