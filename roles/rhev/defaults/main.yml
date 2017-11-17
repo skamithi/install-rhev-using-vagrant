@@ -1,4 +1,13 @@
 # Configure nfs_rhev_home
 # Example: nfs_rhev_home: /home/rhev_nfs
 # nfs_rhev_home:
+#
+# FQDN of RHEV server
+# ovirt_engine_host:
+#
+# Rhev admin user. Defaults to admin
+ovirt_username: admin
+#
+# Set ovirt_password in Ansible vault
+# ovirt_password:
 

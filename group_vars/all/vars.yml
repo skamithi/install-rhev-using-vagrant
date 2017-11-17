@@ -1,10 +1,12 @@
 subscription_pass: "{{ vault_subscription_pass }}"
 subscription_user: "{{ vault_subscription_user }}"
 pool_ids: "{{ vault_pool_ids }}"
+ovirt_password: "{{ vault_ovirt_password }}"
 
 
 nfs_rhev_home: /home/rhev_nfs
-nfs_export_line: "{{ nfs_rhev_home }} *(rw,sync,no_root_squash)"
+nfs_export:
+  - "{{ nfs_rhev_home }} *(rw,sync,no_root_squash)"
 
 subscription_repos:
   - rhel-7-server-rpms

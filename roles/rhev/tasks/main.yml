@@ -1,25 +1,53 @@
-- name: install rhevm
-  yum:
-    name: rhevm
+- include: install.yml
+  tags: rhev_install
 
-- name: confirm that the nfs_rhev_home is set
-  assert:
-    that:
-      - " nfs_rhev_home is defined "
-    msg: "nfs_rhev_home is not defined"
+- block:
+  - assert:
+      that:
+        - "{{ item }} is defined"
+      msg: "{{ item }} is not defined"
+    with_items:
+      - ovirt_password
+      - ovirt_engine_host
+    tags:
+      - rhev_hypervisor
+      - rhev_storage
 
-- name: set nfs directory with the proper permissions
-  file:
-    path: "{{ nfs_rhev_home}}"
-    owner: vdsm
-    group: kvm
-    mode: 0770
-    state: directory
+  - name: get CA Cert from RHEV server
+    get_url:
+      url: "{{ rhev_ca_path }}"
+      dest: "./ca.pem"
+      validate_certs: no
+    tags:
+      - rhev_hypervisor
+      - rhev_storage
 
-- name: update firewalld to allow NFS server to function
-  firewalld:
-    service: "{{ item }}"
-    permanent: true
-    state: enabled
-  with_items: "{{ nfs_services }}"
-  notify: reload firewalld
+
+  - name: Get SSO Token
+    ovirt_auth:
+      url: https://{{ovirt_engine_host}}/ovirt-engine/api
+      ca_file: ca.pem
+      username: "{{ ovirt_username }}@internal"
+      password: "{{ ovirt_password }}"
+    tags:
+      - rhev_hypervisor
+      - rhev_storage
+
+
+  - include: hypervisors.yml
+    tags: rhev_hypervisor
+
+  - include: storage.yml
+    tags: rhev_storage
+
+  delegate_to: localhost
+  always:
+    - name: revoke the SSO Token
+      ovirt_auth:
+        state: absent
+        ovirt_auth: "{{ ovirt_auth }}"
+      tags:
+        - rhev_hypervisor
+        - rhev_storage
+
+

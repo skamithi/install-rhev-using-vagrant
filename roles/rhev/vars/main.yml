@@ -1,3 +1,4 @@
+rhev_ca_path: "https://{{ ovirt_engine_host}}/ovirt-engine/services/pki-resource?resource=ca-certificate&format=X509-PEM-CA"
 nfs_services:
   - nfs
   - mountd

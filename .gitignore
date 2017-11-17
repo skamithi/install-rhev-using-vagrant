@@ -3,3 +3,4 @@ v_pass
 */*/vault.yml
 *.retry
 *.swp
+ca.pem

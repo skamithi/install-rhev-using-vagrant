@@ -9,11 +9,13 @@
   roles:
     - role: redhat_subscription_role
       tags: subscription
-  	- role: ansible-role-hosts # variables found in Vagrantfile extra_vars
+
+    # variables found in Vagrantfile extra_vars
+    - role: ansible-role-hosts
+      tags: etc_hosts
+
     - role: geerlingguy.nfs
-      nfs_exports:
-        - "{{ nfs_export_line }}"
       tags: nfs
+
     - role: rhev
       tags: rhev
-

@@ -33,8 +33,10 @@ Vagrant.configure(2) do |config|
     node.vm.provision :ansible do  |ansible|
       ansible.vault_password_file = "v_pass"
       ansible.playbook = "rhevm.yml"
-#      ansible.tags = "rhev"
+      ansible.tags = "rhev_hypervisor"
+      ansible.verbose = "vvvv"
       ansible.extra_vars = {
+        "ovirt_engine_host": "rhevm",
    			"host_additional_hosts": [{
          	"address": rhevh1_ip
       		},
