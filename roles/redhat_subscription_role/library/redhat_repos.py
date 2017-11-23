@@ -102,7 +102,8 @@ def main():
                 changed=False,
                 msg="only == false and all repos installed")
 
-    repos = repos_to_install
+    if only != "yes":
+        repos = repos_to_install
     if state == 'present':
         if only == 'yes':
             os.system("subscription-manager repos --disable='*'")

@@ -10,4 +10,9 @@ ovirt_username: admin
 #
 # Set ovirt_password in Ansible vault
 # ovirt_password:
+#
+# Default Storage Domain for this test setup
+storage_domain_name: rhel_nfs
 
+# rhev domain . Defaulits to internal
+rhev_domain: internal

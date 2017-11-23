@@ -33,15 +33,14 @@ Vagrant.configure(2) do |config|
     node.vm.provision :ansible do  |ansible|
       ansible.vault_password_file = "v_pass"
       ansible.playbook = "rhevm.yml"
-      ansible.skip_tags = "rhev_hypervisor, rhev_storage"
+      ansible.skip_tags = "rhev_hypervisor, rhev_storage, subscription, rhev_install"
       ansible.verbose = "vvvv"
       ansible.extra_vars = {
+#        "update_yum": false,
         "ovirt_engine_host": "rhevm",
-   			"host_additional_hosts": [{
-         	"address": rhevh1_ip
-      		},
-      		{
-         		"hostnames": [
+   			"hosts_additional_hosts": [{
+         	"address": rhevh1_ip,
+          "hostnames": [
             	"rhevh1"
          	]
       		}
@@ -67,24 +66,21 @@ Vagrant.configure(2) do |config|
 
     node.vm.provision :ansible do  |ansible|
       ansible.vault_password_file = "v_pass"
-      ansible.skip_tags= "rhev_install, subscription"
+#      ansible.skip_tags= "rhev_install"
+      ansible.skip_tags = "rhev_install,subscription"
       ansible.playbook = "rhevh1.yml"
       ansible.verbose = "vvvv"
       ansible.extra_vars = {
-        "update_yum": false,
+#        "update_yum": false,
         "ovirt_engine_host": "rhevm",
         "rhel_hypervisor_ip": rhevh1_ip,
         "rhel_hypervisor_name": "rhevh1",
-   			"host_additional_hosts": [{
-         	"address": rhevm_ip
-      		},
-      		{
-         		"hostnames": [
+   			"hosts_additional_hosts": [{
+         	"address": rhevm_ip,
+          "hostnames": [
             	"rhevm"
-         	]
-      		}
+         	]}
 				]
-
       }
     end
   end

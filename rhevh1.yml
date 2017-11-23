@@ -2,4 +2,12 @@
 - hosts: all
   become: true
   roles:
-    - redhat_subscription_role
+    - role: redhat_subscription_role
+      tags: subscription
+
+    # variables found in Vagrantfile extra_vars
+    - role: ansible-role-hosts
+      tags: etc_hosts
+
+    - role: rhev
+      tags: rhev

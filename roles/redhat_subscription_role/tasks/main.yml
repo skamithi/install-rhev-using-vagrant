@@ -1,3 +1,11 @@
+- assert:
+    that:
+      - "subscription_{{item}} is defined"
+    msg: "add vault_subscription_{{item}} to group_vars/all/vault.yml - encrypt it of cause"
+  with_items:
+    - 'user'
+    - 'pass'
+
 - name: Subscribe to require Red Hat repos. Find the right pool IDs as mentioned in the 4.1 rhev install guide.
   redhat_subscription:
     state: present
@@ -15,4 +23,5 @@
     name: '*'
     state: latest
   when: "update_yum == True"
+  tags: update_yum
 

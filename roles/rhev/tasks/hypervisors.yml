@@ -1,1 +1,29 @@
+- assert:
+    that:
+      - "rhel_hypervisor_name is defined"
+    msg: "rhel_hypervisor_name is not defined"
 
+- assert:
+    that:
+      - "rhel_hypervisor_ip is defined"
+    msg: "rhel_hypervisor_ip is not defined"
+
+
+- name: ensure ssh is started before one starts to configure the hosts
+  meta: flush_handlers
+
+- block:
+  - name: add rhel hypervisor to rhel
+    ovirt_hosts:
+      auth: "{{ ovirt_auth }}"
+      public_key: true
+      state: present
+      name: "{{ rhel_hypervisor_name }}"
+      address: "{{ rhel_hypervisor_ip }}"
+  rescue:
+    - name: remove rhel hypervisor
+      ovirt_hosts:
+        auth: "{{ ovirt_auth }}"
+        state: reinstalled
+        name: "{{ rhel_hypervisor_name }}"
+        address: "{{ rhel_hypervisor_ip }}"

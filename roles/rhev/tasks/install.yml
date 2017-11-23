@@ -2,6 +2,19 @@
   yum:
     name: rhevm
 
+- name: attempt to connect via ovirt_auth
+  ovirt_auth:
+    url: https://{{ovirt_engine_host}}/ovirt-engine/api
+    username: "{{ ovirt_username }}@{{ rhev_domain }}"
+    password: "{{ ovirt_password }}"
+  ignore_errors: yes
+
+- name: revoke the SSO Token
+  ovirt_auth:
+    state: absent
+    ovirt_auth: "{{ ovirt_auth }}"
+  when: "ovirt_auth is defined"
+
 - name: confirm that the nfs_rhev_home is set
   assert:
     that:

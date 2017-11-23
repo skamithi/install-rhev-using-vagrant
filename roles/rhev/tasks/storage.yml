@@ -1,0 +1,19 @@
+- assert:
+    that:
+      - "{{ item }} is defined"
+    msg: "{{ item }} is not defined"
+  with_items:
+    - storage_domain_name
+    - ovirt_engine_host
+    - nfs_rhev_home
+    - rhel_hypervisor_name
+
+- name: add data NFS storage domain
+  ovirt_storage_domains:
+    auth: "{{ ovirt_auth }}"
+    name: "{{ storage_domain_name }}"
+    host: "{{ rhel_hypervisor_name }}"
+    data_center: Default
+    nfs:
+      address: "{{ ovirt_engine_host }}"
+      path: "{{ nfs_rhev_home }}"

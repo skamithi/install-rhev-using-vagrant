@@ -1,2 +1,5 @@
-- name: reload firewalld rules
+- name: reload firewalld
   command: "firewall-cmd --reload"
+
+- name: restart ssh
+  service: name=sshd state=restarted

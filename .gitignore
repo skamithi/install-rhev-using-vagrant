@@ -4,3 +4,4 @@ v_pass
 *.retry
 *.swp
 ca.pem
+Session.vim
