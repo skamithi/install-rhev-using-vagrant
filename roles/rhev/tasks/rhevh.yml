@@ -8,8 +8,22 @@
     - rhev_hypervisor
     - rhev_storage
 
-- block:
+- name: install ssh keys in root
+  block:
+    - file:
+        path: /root/.ssh
+        owner: root
+        group: root
+        mode: 0700
+        state: directory
+    - authorized_key:
+        user: root
+        key: "{{ lookup('file', './rhevm.pub.key') }}"
+  tags:
+    - rhev_hypervisor
+    - rhev_storage
 
+- block:
   - include_tasks: auth.yml
     tags:
       - rhev_hypervisor

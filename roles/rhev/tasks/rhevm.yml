@@ -25,11 +25,21 @@
 
 - name: generate SSH key to install on RHEV Hypervisors. Store key on vagrant hypervisor
   block:
-    - tempfile:
+    - name: create ssh tempfile
+      tempfile:
         state: file
       register: ssh_key
-    - shell: openssl x509 -inform pem -in {{ ovirt_cert }}  -noout -pubkey > {{ ssh_key.path }}
-    - fetch:
+    - name: create openssl temp pub key
+      tempfile:
+        state: file
+      register: openssl_pub_key
+    - name: extract public pem ssl key
+      shell: openssl x509 -inform pem -in {{ ovirt_cert }}  -noout -pubkey  > {{ openssl_pub_key.path }}
+      register: ssl_pub_key
+    - name: convert ssl pem to ssh pem
+      shell: ssh-keygen -i -m PKCS8 -f {{ openssl_pub_key.path }} > {{ ssh_key.path }}
+    - name: place ssh key on vagrant directory for install on hypervisors.
+      fetch:
         src: "{{ ssh_key.path }}"
         dest: ./rhevm.pub.key
         flat: yes
@@ -37,8 +47,14 @@
     - name: delete ssh key tempfile
       file:
         state: absent
-        path: "{{ ssh_key }}"
+        path: "{{ ssh_key.path }}"
       when: ssh_key is defined
+
+    - name: delete openssl pub key tempfile
+      file:
+        state: absent
+        path: "{{ openssl_pub_key.path }}"
+      when: openssl_pub_key is defined
 
 - name: confirm that the nfs_rhev_home is set
   assert:
