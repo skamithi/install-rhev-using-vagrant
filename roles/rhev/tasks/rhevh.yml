@@ -8,6 +8,13 @@
     - rhev_hypervisor
     - rhev_storage
 
+- name: install ovirtsdk to run ovirt_auth commands
+  yum:
+    name: python-ovirt-engine-sdk4
+  tags:
+    - rhev_hypervisor
+    - rhev_storage
+
 - name: install ssh keys in root
   block:
     - file:
