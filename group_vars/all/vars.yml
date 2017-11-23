@@ -5,6 +5,6 @@ ovirt_password: "{{ vault_ovirt_password }}"
 
 
 nfs_rhev_home: /home/rhev_nfs
-nfs_export:
+nfs_exports:
   - "{{ nfs_rhev_home }} *(rw,sync,no_root_squash)"
 
