@@ -7,4 +7,4 @@ nfs_services:
 ovirt_cert: /etc/pki/ovirt-engine/certs/engine.cer
 tinycore_image: tinycore.qcow2
 
-
+rhev_websockets_port: 6100

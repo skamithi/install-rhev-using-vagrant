@@ -79,3 +79,14 @@
   notify:
     - start firewalld
     - reload firewalld
+  tags: firewall
+
+- name: update firewalld to allow RHEV Web console services
+  firewalld:
+    port: "{{ rhev_websockets_port}}/tcp"
+    permanent: true
+    state: enabled
+  notify:
+    - start firewalld
+    - reload firewalld
+  tags: firewall
