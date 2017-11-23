@@ -33,7 +33,7 @@
 - name: add tinycore disk to RHEV
   ovirt_disk:
     name: tinycorelinux
-    size: 60MiB
+    size: 1GiB
     format: cow
     image_path: /tmp/tinycore.qcow2
     storage_domain:  rhel_nfs

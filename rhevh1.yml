@@ -10,4 +10,3 @@
       tags: etc_hosts
 
     - role: rhev
-      tags: rhev

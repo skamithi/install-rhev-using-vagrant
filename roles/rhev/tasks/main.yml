@@ -1,1 +1,1 @@
-- include_tasks: "{{ rhev_server_type }}.yml"
+- import_tasks: "{{ rhev_server_type }}.yml"
