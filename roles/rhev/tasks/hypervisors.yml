@@ -24,6 +24,6 @@
     - name: remove rhel hypervisor
       ovirt_hosts:
         auth: "{{ ovirt_auth }}"
-        state: reinstalled
+        state: absent
         name: "{{ rhel_hypervisor_name }}"
         address: "{{ rhel_hypervisor_ip }}"

@@ -1,0 +1,26 @@
+- name: make sure ssh to root is permitted
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: ".*PermitRootLogin"
+    line: "PermitRootLogin yes"
+  notify: restart ssh
+  tags:
+    - rhev_hypervisor
+    - rhev_storage
+
+- block:
+
+  - include_tasks: auth.yml
+    tags:
+      - rhev_hypervisor
+      - rhev_storage
+
+
+  - include: hypervisors.yml
+    tags: rhev_hypervisor
+
+  - include: storage.yml
+    tags: rhev_storage
+
+  always:
+    - include_tasks: cleanup.yml

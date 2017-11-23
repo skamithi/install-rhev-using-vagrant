@@ -1,0 +1,17 @@
+- name: revoke the SSO Token
+  ovirt_auth:
+    state: absent
+    ovirt_auth: "{{ ovirt_auth }}"
+  when: ovirt_auth is defined
+
+- name: delete ca temp file path
+  file:
+    state: absent
+    path: "{{ ca_file.path }}"
+  when: ca_file is defined
+
+- name: cleanup temp answer file
+  file:
+    state: absent
+    path: "{{ answer_file.path }}"
+  when: answer_file is defined

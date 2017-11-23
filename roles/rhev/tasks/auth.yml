@@ -1,1 +1,29 @@
+- assert:
+    that:
+      - "{{ item }} is defined"
+    msg: "{{ item }} is not defined"
+  with_items:
+    - ovirt_password
+    - ovirt_engine_host
+    - rhev_ca_path
 
+- name: create a tempfile for the CA
+  tempfile:
+    state: file
+    suffix: temp
+  register: ca_file
+
+- name: get CA Cert from RHEV server. CA Cert may change. always try and download it
+  get_url:
+    url: "{{ rhev_ca_path }}"
+    dest: "{{ ca_file.path }}"
+    validate_certs: no
+    force: yes
+
+
+- name: Get SSO Token
+  ovirt_auth:
+    url: https://{{ovirt_engine_host}}/ovirt-engine/api
+    ca_file: "{{ ca_file.path }}"
+    username: "{{ ovirt_username }}@{{ rhev_domain }}"
+    password: "{{ ovirt_password }}"

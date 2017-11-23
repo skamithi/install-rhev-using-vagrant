@@ -2,18 +2,25 @@
   yum:
     name: rhevm
 
-- name: attempt to connect via ovirt_auth
-  ovirt_auth:
-    url: https://{{ovirt_engine_host}}/ovirt-engine/api
-    username: "{{ ovirt_username }}@{{ rhev_domain }}"
-    password: "{{ ovirt_password }}"
-  ignore_errors: yes
+- name: create a tempfile for the answer file
+  tempfile:
+    state: file
+    suffix: temp
+  register: answer_file
 
-- name: revoke the SSO Token
-  ovirt_auth:
-    state: absent
-    ovirt_auth: "{{ ovirt_auth }}"
-  when: "ovirt_auth is defined"
+- name: install ansible file in tmp location
+  template:
+    src: engine_setup_answer_file.j2
+    dest: "{{ answer_file.path }}"
+
+
+- name: Run engine setup if RHEVM is not up
+  block:
+    - include_tasks: auth.yml
+  rescue:
+    - command: engine-setup --config-append={{ answer_file.path }}
+  always:
+    - include_tasks: cleanup.yml
 
 - name: confirm that the nfs_rhev_home is set
   assert:
@@ -35,4 +42,6 @@
     permanent: true
     state: enabled
   with_items: "{{ nfs_services }}"
-  notify: reload firewalld
+  notify:
+    - start firewalld
+    - reload firewalld

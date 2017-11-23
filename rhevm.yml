@@ -4,6 +4,18 @@
   pre_tasks:
     - assert:
         that:
+          - vault_subscription_pass is defined
+        msg: >
+          go to the README on how to create a vault file for this
+          project with the appropriate variables
+    - assert:
+        that:
+          - ansible_version.major > 1
+          - ansible_version.minor > 3
+        msg: Requires Ansible 2.4 and higher
+
+    - assert:
+        that:
           - "nfs_rhev_home is defined"
         msg: "nfs_rhev_home var is not defined"
   roles:
