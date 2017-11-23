@@ -9,7 +9,7 @@ rhevh1_ip = '10.20.0.3'
 rhev_box = 'rhel74'
 ansible_debug = ''
 yum_update = true
-skip_tag_list = ''
+tag_list = ''
 ovirt_hostname = 'rhevm.test.local'
 
 rhev_core_subscription_repos = %w{
@@ -23,8 +23,8 @@ rhev_core_subscription_repos = %w{
 rhevh_subscription_repos = rhev_core_subscription_repos
 rhevh_subscription_repos.push('rhel-7-server-rhv-4-mgmt-agent-rpms')
 
-if ENV['SKIP_TAG_LIST']
-  skip_tag_list = ENV['SKIP_TAG_LIST']
+if ENV['TAG_LIST']
+  tag_list = ENV['TAG_LIST']
 end
 
 # Add DEBUG_INSTALL=yes before calling vagrant command to enable ansible debugs
@@ -66,7 +66,7 @@ Vagrant.configure(2) do |config|
       ansible.vault_password_file = "v_pass"
       ansible.playbook = "rhevm.yml"
       ansible.verbose = ansible_debug
-      ansible.skip_tags = skip_tag_list
+      ansible.tags = tag_list
       ansible.extra_vars = {
         "rhev_server_type": "rhevm",
         "update_yum": yum_update,
@@ -106,7 +106,7 @@ Vagrant.configure(2) do |config|
       ansible.vault_password_file = "v_pass"
       ansible.playbook = "rhevh1.yml"
       ansible.verbose = ansible_debug
-      ansible.skip_tags = skip_tag_list
+      ansible.tags = tag_list
       ansible.extra_vars = {
         "update_yum": yum_update,
         "rhev_server_type": "rhevh",

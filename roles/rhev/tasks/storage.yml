@@ -17,3 +17,24 @@
     nfs:
       address: "{{ ovirt_engine_host }}"
       path: "{{ nfs_rhev_home }}"
+
+
+- name: copy tinycorelinux to /tmp
+  copy:
+    src: "vm_images/{{ tinycore_image }}.tgz"
+    dest: "/tmp/{{tinycore_image}}.tgz"
+
+- name: uncompress tinycorelinux
+  unarchive:
+    src: "/tmp/{{tinycore_image}}.tgz"
+    dest: "/tmp"
+    remote_src: yes
+
+- name: add tinycore disk to RHEV
+  ovirt_disk:
+    name: tinycorelinux
+    size: 60MiB
+    format: cow
+    image_path: /tmp/tinycore.qcow2
+    storage_domain:  rhel_nfs
+    auth: "{{ ovirt_auth }}"

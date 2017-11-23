@@ -5,6 +5,6 @@ nfs_services:
   - rpc-bind
 
 ovirt_cert: /etc/pki/ovirt-engine/certs/engine.cer
-
+tinycore_image: tinycore.qcow2
 
 
