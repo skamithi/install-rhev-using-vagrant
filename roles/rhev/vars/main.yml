@@ -3,3 +3,8 @@ nfs_services:
   - nfs
   - mountd
   - rpc-bind
+
+ovirt_cert: /etc/pki/ovirt-engine/certs/engine.cer
+
+
+

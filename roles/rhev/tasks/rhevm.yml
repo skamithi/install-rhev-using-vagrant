@@ -18,9 +18,27 @@
   block:
     - include_tasks: auth.yml
   rescue:
-    - command: engine-setup --config-append={{ answer_file.path }}
+    - name: run RHEVM engine-setup with an answer file
+      command: engine-setup --config-append={{ answer_file.path }}
   always:
     - include_tasks: cleanup.yml
+
+- name: generate SSH key to install on RHEV Hypervisors. Store key on vagrant hypervisor
+  block:
+    - tempfile:
+        state: file
+      register: ssh_key
+    - shell: openssl x509 -inform pem -in {{ ovirt_cert }}  -noout -pubkey > {{ ssh_key.path }}
+    - fetch:
+        src: "{{ ssh_key.path }}"
+        dest: ./rhevm.pub.key
+        flat: yes
+  always:
+    - name: delete ssh key tempfile
+      file:
+        state: absent
+        path: "{{ ssh_key }}"
+      when: ssh_key is defined
 
 - name: confirm that the nfs_rhev_home is set
   assert:
