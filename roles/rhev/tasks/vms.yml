@@ -1,0 +1,31 @@
+---
+- name: create new tinycore linux VM that will become a template
+  ovirt_vms:
+    auth: "{{ ovirt_auth }}"
+    name: tinycore_vm
+    type: server
+    state: present
+    cluster: Default
+    operating_system: other_linux
+    storage_domain: rhel_nfs
+    disks:
+      - name: tinycorelinux
+        bootable: True
+    nics: []
+
+- name: make tinycore vm a template
+  ovirt_templates:
+    auth: "{{ ovirt_auth }}"
+    cluster: Default
+    name: tinycore_template
+    vm: tinycore_vm
+    description: Tiny Core Linux Template
+
+
+- name: deploy VM from a template
+  ovirt_vms:
+    auth: "{{ ovirt_auth }}"
+    name: tinycore-test1
+    template: tinycore_template
+    state: running
+    cluster: Default
