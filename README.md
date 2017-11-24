@@ -91,7 +91,7 @@ git clone https://github.com/linuxsimba/install-rhev-using-vagrant
 
 Use your system package manager or PIP  to install Ansible 2.4 or higher.
 
-## Create Secret Info files
+## Create Secret Info file
 
 Create the file ``group_vars/all/vault.yml`` in the rhev vagrant directory
 Pool IDs are Red Hat subscription pools that contain the Red Hat Virtualization repos.
