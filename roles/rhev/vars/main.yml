@@ -5,6 +5,11 @@ nfs_services:
   - rpc-bind
 
 ovirt_cert: /etc/pki/ovirt-engine/certs/engine.cer
-tinycore_image: tinycore.qcow2
 
 rhev_websockets_port: 6100
+
+cirros_img_name: "cirros-0.4.0-x86_64-disk.img"
+cirros_img_url: "http://download.cirros-cloud.net/0.4.0/{{ cirros_img_name }}"
+cirros_download_img_path: "/tmp/{{ cirros_img_name }}"
+vm_template_disk_name: cirros_template_disk
+cirros_vm_name: cirros123

@@ -18,23 +18,17 @@
       address: "{{ ovirt_engine_host }}"
       path: "{{ nfs_rhev_home }}"
 
+- name: Download Cirros Image from the internet
+  get_url:
+    url: "{{ cirros_img_url }}"
+    dest: "{{ cirros_download_img_path }}"
 
-- name: copy tinycorelinux to /tmp
-  copy:
-    src: "vm_images/{{ tinycore_image }}.tgz"
-    dest: "/tmp/{{tinycore_image}}.tgz"
 
-- name: uncompress tinycorelinux
-  unarchive:
-    src: "/tmp/{{tinycore_image}}.tgz"
-    dest: "/tmp"
-    remote_src: yes
-
-- name: add tinycore disk to RHEV
+- name: add cirros disk to RHEV
   ovirt_disk:
-    name: tinycorelinux
-    size: 1GiB
+    name: "{{ vm_template_disk_name }}"
+    size: 50MiB
     format: cow
-    image_path: /tmp/tinycore.qcow2
+    image_path: "{{ cirros_download_img_path }}"
     storage_domain:  rhel_nfs
     auth: "{{ ovirt_auth }}"

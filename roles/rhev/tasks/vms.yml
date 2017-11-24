@@ -1,31 +1,51 @@
 ---
-- name: create new tinycore linux VM that will become a template
+- block:
+    - name: make cirros vm a template
+      ovirt_templates:
+        auth: "{{ ovirt_auth }}"
+        cluster: Default
+        name: cirros_template
+        vm: cirros_vm
+        description: Cirros Linux Template
+  rescue:
+    - name: create new Cirros VM that will become a template
+      ovirt_vms:
+        auth: "{{ ovirt_auth }}"
+        name: "{{ cirros_vm_name }}"
+        memory: 256MiB
+        memory_guaranteed: 256MiB
+        type: server
+        state: present
+        cluster: Default
+        operating_system: other_linux
+        storage_domain: rhel_nfs
+        disks:
+          - name: "{{ vm_template_disk_name }}"
+            bootable: True
+        nics: []
+
+    - name: make cirros vm a template
+      ovirt_templates:
+        auth: "{{ ovirt_auth }}"
+        cluster: Default
+        name: cirros_template
+        vm: "{{ cirros_vm_name }}"
+        description: Cirros Linux Template
+
+- name: delete cirros core VM used to create the template
   ovirt_vms:
     auth: "{{ ovirt_auth }}"
-    name: tinycore_vm
-    type: server
-    state: present
-    cluster: Default
-    operating_system: other_linux
-    storage_domain: rhel_nfs
-    disks:
-      - name: tinycorelinux
-        bootable: True
-    nics: []
-
-- name: make tinycore vm a template
-  ovirt_templates:
-    auth: "{{ ovirt_auth }}"
-    cluster: Default
-    name: tinycore_template
-    vm: tinycore_vm
-    description: Tiny Core Linux Template
-
+    name: "{{ cirros_vm_name }}"
+    state: absent
 
 - name: deploy VM from a template
   ovirt_vms:
     auth: "{{ ovirt_auth }}"
-    name: tinycore-test1
-    template: tinycore_template
+    name: cirros-test
+    memory: 256MiB
+    memory_guaranteed: 256MiB
+    template: cirros_template
     state: running
     cluster: Default
+    cloud_init:
+      host_name: test_cloud_init
