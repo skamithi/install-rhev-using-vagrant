@@ -9,7 +9,7 @@ rhevh1_ip = '10.20.0.3'
 rhev_box = 'rhel74'
 ansible_debug = ''
 yum_update = true
-tag_list = ''
+tag_list = 'all'
 ovirt_hostname = 'rhevm.test.local'
 
 rhev_core_subscription_repos = %w{
