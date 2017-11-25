@@ -159,7 +159,7 @@ websocket proxy certificate is trusted by your browser. Default CA certificate.
 ```
 
 Click on the [Default CA Certificate](https://rhevm.test.local/ovirt-engine/services/pki-resource?resource=ca-certificate&format=X509-PEM-CA) and install the CA Certificate into your browser.
-Close the console browser window and bring up the console again in a new window.
+Close the console browser window and bring up the console again in a new window. The console should now be visible on your browser.
 
 ## Troubleshooting
 
