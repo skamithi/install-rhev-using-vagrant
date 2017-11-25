@@ -91,7 +91,7 @@ git clone https://github.com/linuxsimba/install-rhev-using-vagrant
 
 Use your system package manager or PIP  to install Ansible 2.4 or higher.
 
-## Create Secret Info files
+## Create Secret Info file
 
 Create the file ``group_vars/all/vault.yml`` in the rhev vagrant directory
 Pool IDs are Red Hat subscription pools that contain the Red Hat Virtualization repos.
@@ -147,8 +147,7 @@ The username is ``admin`` and the password is whatever you set in ``vault_ovirt_
 
 ## VM Console
 
-The default Native Client console does not work due to the networking in the VM. Instead of doing vagrant port masquerading,
-change the Console invocation to SPICE HTML5.
+The default Native Client console does not work due to the networking in the VM. Instead of doing vagrant port masquerading, go to the Console Options for the VM (right click the VM to see this) and change the Console invocation to SPICE HTML5.
 
 You will see a message saying the following:
 
@@ -160,7 +159,7 @@ websocket proxy certificate is trusted by your browser. Default CA certificate.
 ```
 
 Click on the [Default CA Certificate](https://rhevm.test.local/ovirt-engine/services/pki-resource?resource=ca-certificate&format=X509-PEM-CA) and install the CA Certificate into your browser.
-Close the console browser window and bring up the console again in a new window.
+Close the console browser window and bring up the console again in a new window. The console should now be visible on your browser.
 
 ## Troubleshooting
 
