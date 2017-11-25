@@ -13,11 +13,11 @@ tag_list = 'all'
 ovirt_hostname = 'rhevm.test.local'
 
 rhev_core_subscription_repos = %w{
- 	rhel-7-server-rpms
- 	rhel-7-server-supplementary-rpms
- 	rhel-7-server-rhv-4.1-rpms
- 	rhel-7-server-rhv-4-tools-rpms
- 	jb-eap-7-for-rhel-7-server-rpms
+  rhel-7-server-rpms
+  rhel-7-server-supplementary-rpms
+  rhel-7-server-rhv-4.1-rpms
+  rhel-7-server-rhv-4-tools-rpms
+  jb-eap-7-for-rhel-7-server-rpms
 }
 
 rhevh_subscription_repos = rhev_core_subscription_repos
@@ -72,18 +72,18 @@ Vagrant.configure(2) do |config|
         "update_yum": yum_update,
         "subscription_repos": rhev_core_subscription_repos,
         "ovirt_engine_host": ovirt_hostname,
-   			"hosts_additional_hosts": [{
-         	"address": rhevh1_ip,
+        "hosts_additional_hosts": [{
+          "address": rhevh1_ip,
           "hostnames": [
-            	"rhevh1", "rhevh1.test.local"
-         	]},
+              "rhevh1", "rhevh1.test.local"
+          ]},
         {
           "address": rhevm_ip,
           "hostnames": [
             "rhevm", "rhevm.test.local"
           ]
         }]
-			}
+      }
     end
   end
 
@@ -114,12 +114,12 @@ Vagrant.configure(2) do |config|
         "ovirt_engine_host": ovirt_hostname,
         "rhel_hypervisor_ip": rhevh1_ip,
         "rhel_hypervisor_name": "rhevh1",
-   			"hosts_additional_hosts": [{
-         	"address": rhevm_ip,
+        "hosts_additional_hosts": [{
+          "address": rhevm_ip,
           "hostnames": [
-            	"rhevm", "rhevm.test.local"
-         	]}
-				]
+              "rhevm", "rhevm.test.local"
+          ]}
+        ]
       }
     end
   end
