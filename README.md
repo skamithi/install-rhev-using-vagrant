@@ -147,8 +147,7 @@ The username is ``admin`` and the password is whatever you set in ``vault_ovirt_
 
 ## VM Console
 
-The default Native Client console does not work due to the networking in the VM. Instead of doing vagrant port masquerading,
-change the Console invocation to SPICE HTML5.
+The default Native Client console does not work due to the networking in the VM. Instead of doing vagrant port masquerading, go to the Console Options for the VM (right click the VM to see this) and change the Console invocation to SPICE HTML5.
 
 You will see a message saying the following:
 
