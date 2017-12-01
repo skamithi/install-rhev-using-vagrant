@@ -15,6 +15,7 @@ one is the RHEV hypervisor. The vagrant install does the following:
 * PC with at least 8GB of RAM, 50G of disk.
 * RHEL 7.4 iso
 * Red Hat Subscriptions  that can install RHEV Manager and RHEV Hypervisor code.
+* Vagrant Hypervisor that has [KVM Nested Virtualization](https://fedoraproject.org/wiki/How_to_enable_nested_virtualization_in_KVM enabled. The RHEV Hypervisor will fails to be installed if it cannot detect KVM virtualization. 
 
 
 ## Build a RHEL Vagrant Box
